@@ -1,0 +1,400 @@
+﻿/* Header&Footer CSS */
+
+html, body {
+    padding: 0;
+    margin: 0;
+    color: #222;
+}
+
+#nav {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(241, 241, 241, 0.6);
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.fa-facebook {
+    color: #3b5998;
+}
+
+.fa-twitter {
+    color: #00aced;
+}
+
+.fa-instagram {
+    color: #517fa4;
+}
+
+.fa-youtube {
+    color: #bb0000;
+}
+
+    .fa-facebook:hover, .fa-twitter:hover, .fa-instagram:hover, .fa-youtube:hover {
+        color: #d5d5d5;
+    }
+
+
+
+hr.light {
+    border-top: 1px solid #d5d5d5;
+    width: 75%;
+}
+
+hr.light-100 {
+    border-top: 1px solid #d5d5d5;
+    width: 100%;
+}
+
+.staff-hr {
+    width: 20%;
+    border-top: 1px solid #d5d5d5;
+}
+
+.changeColor {
+    color: #d5d5d5;
+}
+
+.footer-bottom {
+    font-size: 1.3rem;
+}
+
+@media only screen and (max-width:1200px) {
+    .nav-link {
+        font-size: 1.3rem !important;
+    }
+
+    .footer-botton {
+        font-size: 1.3em !important;
+    }
+}
+
+@media only screen and (max-width:992px) {
+    .nav-link {
+        font-size: 1rem !important;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .footer-botton {
+        font-size: 30px;
+    }
+}
+
+@media only screen and (max-width:425px) {
+    .footer-bottom {
+        font-size: 20px;
+    }
+}
+/* End of Header&Footer CSS */
+
+/** style for reservation button **/
+.map {
+    height: 400px;
+    width: 100%;
+}
+
+#closeBtn {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    z-index: 2001;
+}
+
+.f-screen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#resvScreen {
+    display: none;
+    left: -100%;
+    z-index: 2000;
+}
+
+    #resvScreen p {
+        margin-bottom: 0;
+    }
+
+
+
+/** End of style for reservation button **/
+
+/* Personal style */
+
+h1, h2, h3 {
+    color: #90D1C4;
+}
+
+.bigFont {
+    font-size: 1.5em;
+}
+
+#product-carousel-pic {
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 10px #000;
+}
+
+.services-hr {
+    text-align: left;
+    width: 20%;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-10%);
+}
+
+    .carousel-caption h1 {
+        font-size: 500%;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 10px #000;
+    }
+
+.btn-primary {
+    background-color: #6648b1;
+    border: 1px solid #6648b1;
+}
+
+    .btn-primary:hover {
+        background-color: #563d7c;
+        border: 1px solid #563d7c;
+    }
+
+.card-img-top {
+    width: 100%;
+    height: 30vw;
+    object-fit: cover;
+}
+
+.card-height {
+    height: 15vw;
+    object-fit: cover;
+}
+
+/** layout CSS */
+@media (max-width:576px) {
+
+    .carousel {
+        margin-top: 7rem;
+    }
+
+    .bigFont {
+        font-size: 1em;
+    }
+
+    .card-img-top {
+        height: 100vw;
+    }
+}
+
+@media (max-width:768px) {
+
+    .carousel {
+        margin-top: 7rem;
+    }
+
+    h3 {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width:992px) {
+    .carousel {
+        margin-top: 5rem;
+    }
+
+    h3 {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width:1200px) {
+    h3 {
+        margin-bottom: 20px;
+    }
+}
+
+#aboutUs {
+    padding: 20px 0;
+    background-color: #e9ecef;
+}
+
+.container-fluid {
+    margin-bottom: 30px;
+}
+
+#indexContainer {
+    margin-top: 100px;
+}
+
+#registerContainer {
+    margin-top: 100px;
+}
+
+#loginContainer {
+    margin-top: 100px;
+}
+
+#loginContainer1 {
+    margin-top: 100px;
+}
+
+#contactContainer {
+    margin-top: 100px;
+}
+
+#servicesContainer {
+    margin-top: 100px;
+}
+
+#doctorContainer {
+    margin-top: 100px;
+}
+
+#adminPetContainer {
+    margin-top: 100px;
+}
+
+#adminCategoryContainer {
+    margin-top: 100px;
+}
+
+#adminAppointmentContainer {
+    margin-top: 100px;
+}
+
+#adminServiceContainer {
+    margin-top: 100px;
+}
+
+#adminDoctorContainer {
+    margin-top: 100px;
+}
+
+#doctorAddEditContainer {
+    margin-top: 100px;
+}
+
+#petAddEditContainer {
+    margin-top: 100px;
+}
+
+#serviceAddEditContainer {
+    margin-top: 100px;
+}
+
+#appointmentContainer {
+    margin-top: 100px;
+}
+/* End of Personal style */
+
+/* personal style for services*/
+div.pb_section {
+    height: 30%;
+    width: 100%;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 40%, #ffffff 95%), url(images/services/DSC_2005.jpg) !important;
+    background-size: cover;
+}
+
+    div.pb_section h2 {
+        margin-top: 85px;
+        font-family: 'Merriweather', Georgia, "Times New Roman", serif;
+        font-weight: 500;
+        font-size: 4rem;
+        letter-spacing: 5px;
+        line-height: 50vh;
+        text-shadow: 5px 5px 6px grey;
+    }
+
+.serv-info-total {
+    line-height: 1.5em;
+}
+
+.dropdown {
+    position: relative;
+    margin-bottom: 20px;
+    /* display: inline-block; */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 40%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#partener-servs {
+    color: darkgray;
+    font-size: 2.5rem;
+    margin-top: 100px;
+}
+
+#bottom-row {
+    background-image: url('./images/services/bottom-dogs.PNG');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 10.84vw;
+}
+
+@media screen and (max-width: 990px) {
+    .dropdown h2 {
+        font-size: 1.5rem;
+    }
+
+    #top-text {
+        font-size: 3rem;
+    }
+
+    .row h1 {
+        font-size: 2rem;
+    }
+
+    .row h3 {
+        font-size: 1.5rem;
+    }
+
+    .dropdown-content {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 350px) {
+
+    .row h1 {
+        font-size: 1.5rem;
+    }
+
+    .row h3 {
+        font-size: 1.2rem;
+    }
+
+    .dropdown h2 {
+        font-size: 1.3rem;
+    }
+
+    #top-title {
+        font-size: 2rem;
+    }
+}
+/* End of Personal style */

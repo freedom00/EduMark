@@ -1,0 +1,367 @@
+﻿@model EduMark.Models.User
+@{
+    ViewData["Title"] = "Teacher Main";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var days = ViewBag.Days;
+    var hours = ViewBag.Hours;
+    var appts = ViewBag.Appts;
+}
+
+@section heads{
+    <style>
+
+        tbody.TimeSheet {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            border: #cccccc 1px solid;
+            color: #757a7d;
+            font-size: 1.2vw;
+            cursor: default;
+            display: block;
+            border-collapse: collapse;
+        }
+
+        .TimeSheet td {
+            border: #e3e3e3 1px solid;
+        }
+
+        .TimeSheet-cell-selected {
+            background-color: #b4def9;
+        }
+
+        .TimeSheet-cell-selecting {
+            background-color: #dae0ef !important;
+        }
+
+        .TimeSheet-rowHead,
+        .TimeSheet-colHead {
+            background-color: #f5f5f5;
+        }
+
+        .TimeSheet-rowHead {
+            padding: 3px 10px;
+            border-left: none !important;
+        }
+
+        .TimeSheet-colHead {
+            padding: 6px 3px 6px 3px;
+            border-top: none !important;
+        }
+
+        .TimeSheet-head {
+            text-align: center;
+            border-top: none !important;
+            border-left: none !important;
+        }
+
+        .TimeSheet .rightMost {
+            border-right: none !important;
+        }
+
+        .TimeSheet .bottomMost {
+            border-bottom: none !important;
+        }
+
+        .TimeSheet-remarkHead {
+            text-align: center;
+            border-top: none !important;
+            border-right: none !important;
+        }
+
+        .TimeSheet-remark {
+            padding: 0 5px;
+            border-right: none !important;
+        }
+
+        .TimeSheet-remarkHead,
+        .TimeSheet-remark {
+            max-width: 120px;
+            background-color: #fbf0ed;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-left-color: #cccccc !important;
+        }
+
+        /*loading-start*/
+        body .loading-box-shadow-omg {
+          
+            height: 100%;
+            background-color: #211f1f5c;
+            position: fixed;
+            z-index: 9999999;
+            bottom: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        body .loading-box-shadow-omg .loading-box {
+            background-color: white;
+            border-radius: 5px;
+            position: absolute;
+            top: 20%;
+            left: 40%;
+            width: 20%;
+            height: 25%;
+        }
+
+            body .loading-box-shadow-omg .loading-box .loading-circle {
+                width: 80px;
+                height: 80px;
+                background-color: transparent;
+                position: absolute;
+                left: 35%;
+                top: 10%;
+                animation: init-circle 1s linear infinite;
+            }
+
+            body .loading-box-shadow-omg .loading-box .loading-content {
+                position: absolute;
+                bottom: 5%;
+                font-weight: bold;
+                color: rebeccapurple;
+                width: 100%;
+                text-align: center;
+            }
+
+            body .loading-box-shadow-omg .loading-box .loading-circle > div {
+                background-color: #292961;
+                border-radius: 20px;
+                position: absolute;
+            }
+
+        @@keyframes init-circle {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+}
+<div id="doctorContainer" class="container">
+    <div class="row  justify-content-center">
+        <div class="col-6">
+            <img src="~/images/layout/Hands-on-Gears-Converted.png" alt="" width="300"
+                 height="100" class="w-100" />
+        </div>
+    </div><br>
+
+    <!-- Wrapper of blue and white column -->
+    <div class="row mx-0 w-100 h-100">
+       
+                <div class="col-7 mb-3">
+                    <h2>Appointments List</h2>
+
+                    <table border="1" style="font-size:16px;">
+                        <tr><th>#</th><th>Student Name</th><th>Learn language</th><th>Start Time</th><th>End Time</th>><th>Status</th><th>Description</th></tr>
+                        @foreach (var appt in appts)
+                        {
+                            <tr>
+                                <td>@appt.Id</td>
+                                <td>@appt.Student.FullName</td>
+                                <td>@appt.language</td>
+                                <td>@appt.Availability.StartTime</td>
+                                <td>@appt.Availability.EndTime</td>
+                                <td>@appt.Status</td>
+                                <td>@appt.Description</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="col-5 mb-3">
+
+                    <h2>Select Availablity</h2>
+                  
+                    <div id="J_calenderWrapper">
+                        <table>
+                            <thead></thead>
+                            <tbody id="J_timedSheet">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding:15px 0 10px;">
+                        <button class="btn btn-warning" id="J_timingClean">Clean</button>
+                        <button class="btn btn-success" id="J_timingSubmit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+@section Scripts
+{
+    <script src="/js/timesheet.js"></script>
+    <script>
+        var dimensions = [7, 8];
+
+        var dayList = [
+        @foreach(string day in days)
+        {
+            <text>{name: "@day" },</text>
+        }];
+
+        var hourList = [
+            { name: "09", title: "09:00-10:00" }, { name: "10", title: "10:00-11:00" }, { name: "11", title: "11:00-12:00" },
+            { name: "12", title: "12:00-13:00" }, { name: "13", title: "13:00-14:00" }, { name: "14", title: "14:00-15:00" },
+            { name: "15", title: "15:00-16:00" }, { name: "16", title: "16:00-17:00" }
+        ];
+
+        var array=[];
+        @foreach(var data in hours)
+        {
+        <text>
+        var d="@data";
+        array.push(d);
+        </text>
+        }
+        console.log(array);
+        var sheetData = listToMatrix(array, 8);
+        console.log(sheetData);
+
+        $(document).ready(function () {
+
+            var sheet = $("#J_timedSheet").TimeSheet({
+                data: {
+                    dimensions: dimensions,
+                    colHead: hourList,
+                    rowHead: dayList,
+                    sheetHead: { name: "Date\\Time" },
+                    sheetData: sheetData
+                }
+            });
+
+            //updateRemark(sheet);
+
+            $("#J_timingClean").click(function (ev) {
+                sheet.clean();
+                sheet = $("#J_timedSheet").TimeSheet({
+                    data: {
+                        dimensions: dimensions,
+                        colHead: hourList,
+                        rowHead: dayList,
+                        sheetHead: { name: "Date\\Time" },
+                        sheetData: sheetData
+                    }
+                });
+            });
+
+            $("#J_timingSubmit").click(function (ev) {
+                initLoading({
+                    type: "start",
+                    content: "Submitting...",
+                });
+                var arguments = {};
+                arguments.dayhours = new Array(7);
+                arguments.date = new Array(7);
+                for (var i = 0; i < 7; i++) {
+                    arguments.dayhours[i] = new Array(8);
+                }
+
+                var sheetStates = sheet.getSheetStates();
+                var rowsCount = dimensions[0];
+
+                for (var row = 0; row < rowsCount; row++) {
+                    //var hours = [];
+                    //var mHours = sheetStates[row];
+                    for (var col = 0; col < 8; col++) {
+                        //hours[col] = (mHours[col] - 0 != sheetData[row][col] - 0) ? 1 : 0;
+                        arguments.dayhours[row][col] = sheetStates[row][col];
+                    }
+                    arguments.date[row] = dayList[row]['name'];
+                    //var data = { StartDate: dayList[row]['name'], Hours: hours };
+                    //console.log(obj);
+                }
+                console.log(arguments);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SetAvailable", "Teacher")',
+                    data: arguments,
+                    success: function (data) {
+                        initLoading({
+                            type: "stop",
+                            content: "Finished",
+                        });
+                        if (data.success) {
+                            $("#J_timingClean").prop('disabled', true);
+                            toastr.success(data.message);
+                        }
+                        else {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        toastr.error(data.message);
+                    }
+                });
+            });
+        });
+
+        function initLoading(property) {
+            $("body .loading-box-shadow-omg").remove();
+            if (property.type == "stop") {
+                return;
+            }
+            var nodeHtml = '<div class="loading-box-shadow-omg"><div class="loading-box">';
+            nodeHtml += '<div class="loading-circle"></div><div class="loading-content"></div></div></div>';
+            $("body").append(nodeHtml);
+            var html = '<div style="top: 5%;left: 53%;width: 5px;height: 5px;"></div>';
+            html += '<div style="top: 11%;left: 30%;width: 7px; height: 7px;"></div>';
+            html += '<div style="top: 26%;left: 12%;width: 9px;height: 9px;"></div>';
+            html += '<div style="top: 48%;left: 7%;width: 9px;height: 9px;"></div>';
+            html += '<div style="top: 70%;left: 15%;width: 9px;height: 9px;"></div>';
+            html += '<div style="top: 85%;left: 33%;width: 9px;height: 9px;"></div>';
+            html += '<div style="top: 89%;left: 54%;width: 9px;height: 9px;"></div>';
+            html += '<div style="top: 80%;left: 75%;width: 9px;height: 9px;"></div>';
+            $("body .loading-circle").html(html);
+            var content = "loading...";
+            if (property.content) {
+                content = property.content;
+            }
+            $("body .loading-content").text(content);
+            var shadowColor = "#211f1f5c";
+            if (property.shadowColor) {
+                shadowColor = property.shadowColor;
+                $('body .loading-box-shadow-omg').css("background-color", shadowColor);
+            }
+            var loadingBoxColor = "white";
+            if (property.loadingBoxColor) {
+                loadingBoxColor = property.loadingBoxColor;
+                $('body .loading-box-shadow-omg .loading-box').css("background-color", loadingBoxColor);
+            }
+            var loadingPointColor = "#292961";
+            if (property.loadingPointColor) {
+                loadingPointColor = property.loadingPointColor;
+                $('body .loading-box-shadow-omg .loading-circle>div').css("background-color", loadingPointColor);
+            }
+            var loadingContentColor = "rebeccapurple";
+            if (property.loadingContentColor) {
+                loadingContentColor = property.loadingContentColor;
+                $('body .loading-box-shadow-omg .loading-content').css("color", loadingContentColor);
+            }
+        };
+
+        function listToMatrix(list, elementsPerSubArray) {
+            var matrix = [], i, k;
+
+            for (i = 0, k = -1; i < list.length; i++) {
+                if (i % elementsPerSubArray === 0) {
+                    k++;
+                    matrix[k] = [];
+                }
+
+                matrix[k].push(list[i]);
+            }
+
+            return matrix;
+        }
+    </script>
+}

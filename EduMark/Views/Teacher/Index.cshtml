@@ -1,0 +1,164 @@
+﻿@model EduMark.Models.User
+@{
+    ViewData["Title"] = "Teacher Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="doctorContainer" class="container" style="margin-top:100px">
+    <div class="row  justify-content-center">
+        <div class="col-12">
+            <img src="/images/layout/header-image-shows-icons-depicting-an-online-class.png" alt=""
+                 height="200" class="w-100" />
+        </div>
+    </div>
+
+    <!-- Wrapper of blue and white column -->
+    <div class="row mx-0 w-100 h-100 justify-content-center">
+
+
+        <div class="col-12 col-md-9 d-md-flex align-items-md-center bg-light">
+            <!-- Complete information list -->
+
+
+            <div class="col-12 mb-3">
+                <h2>Teacher information</h2>
+
+                <form class="mt-3 needs-validation" method="post" id="form1">
+                    <div class="form-group row align-items-sm-center">
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="d-none d-sm-block col-sm-3 col-form-label"
+                                           for="fullname">Fullname</label>
+                                    <div class="col-12 col-sm-9">
+                                        <input type="text" class="form-control" name="fullname" id="fullname" required value="@Model.FullName" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="d-none d-sm-block col-sm-3 col-form-label">languages:</label>
+                                    <div class="col-12 col-sm-9">
+                                        <input type="checkbox" id="Chinese" name="Chinese" value="Chinese">
+                                        <label for="Chinese">Chinese</label>
+                                    </div>
+                                    <div class="col-12 col-sm-9">
+                                        <input type="checkbox" id="French" name="French" value="French">
+                                        <label for="French">French</label>
+                                    </div>
+                                    <div class="col-12 col-sm-9">
+                                        <input type="checkbox" id="English" name="English" value="English">
+                                        <label for="English">English</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div><div class="col-md-5 offset-md-2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="justify-content-center">
+                                        <input type="file" name="teacherphoto" id="teacherphoto" hidden onchange="previewFile(@Model.Id)" />
+                                        <label for="teacherphoto" class='btn btn-success'><img id="img" alt="Image preview..." name='teacherphoto' src="~/images/teacher/teacher1.jpg" height='240'></label>
+                                        @*<img src="~/images/teacher/teacher1.jpg" width="240" />*@
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Submit button -->
+                    <div class="row ">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-secondary w-100" id="btnUpdate" form="form1">Update information</button>
+                        </div>
+                        <div class="col-6">
+                            <input type="button" onclick="location.href='Teacher/Main';" value="publish availability" />
+                        </div>
+                    </div>
+                </form>
+                <br>
+
+            </div>
+        </div>
+        <!-- End of information column -->
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var teachLangString ="@Model.TeachLanguages";
+
+        if (teachLangString.length>0) {
+            var teachLangArray = teachLangString.split(";");
+
+            for (i = 0; i < teachLangArray.length; i++) {
+                var tt=teachLangArray[i];
+                $("#"+tt).attr("checked", "checked");
+            }
+        }
+
+        //function previewFile() {
+        //    var preview = document.querySelector('#img');
+        //    var file = document.querySelector('#teacherphoto').files[0];
+        //    var reader = new FileReader();
+
+        //    reader.onloadend = function () {
+        //        preview.src = reader.result;
+        //    }
+
+        //    if (file) {
+        //        reader.readAsDataURL(file);
+        //    } else {
+        //        preview.src = "";
+        //    }
+        //}
+
+        $(document).ready(function () {
+            const Langlist = ["Chinese", "English", "French"];
+
+            $("#btnUpdate").click(function () {
+
+                var datas = {};
+                datas.fullName = $("#fullname").val();;
+
+                var lang = "";
+                for (i = 0; i < Langlist.length; i++) {
+                    if ($("#" + Langlist[i]).prop("checked")) {
+                        lang = (lang == "" ? "" : lang + ";") + ($("#" + Langlist[i]).attr("value"));
+                    }
+                }
+                datas.teachLanguages = lang;
+                datas.teachId = @Model.Id;
+                alert("1");
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateInfo", "Teacher")',
+                    data: datas,
+                    success: function (data) {
+                        if (data.success) {
+                            
+                            toastr.success(data.message);
+                            $(location).attr('href',  '@Url.Action("Main","Teacher")');
+                        }
+                        else {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        toastr.error(data.message);
+                    }
+                });
+            });
+
+            
+  
+        });
+
+    </script>
+}
